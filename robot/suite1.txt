@@ -1,0 +1,18 @@
+
+*** Settings ***
+Resource       mykw.txt
+Library        yd.robot.MyJavaHttpKeywords
+
+*** Test Cases ***
+Test Robot Framework Logging
+    Log    "Test Logging"
+
+Test My Logging
+    My Logging   "Test My Logging 1"   "Test My Logging 2"
+
+Test Use Java Keywords
+    Open Http Client
+    Send Get Request To    http://httpbin.org/get
+    Response Should Have Status    200
+    Close Http Client
+
