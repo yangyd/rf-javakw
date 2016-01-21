@@ -1,27 +1,20 @@
 package yd.foo;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
-import org.apache.http.impl.nio.client.HttpAsyncClients;
-
-import java.util.concurrent.Future;
+import yd.robot.MyJavaHttpKeywords;
 
 public class Foo {
   public static void main(final String[] args) throws Exception {
-    CloseableHttpAsyncClient httpclient = HttpAsyncClients.createDefault();
+    MyJavaHttpKeywords jkw = new MyJavaHttpKeywords();
     try {
-      httpclient.start();
-      HttpGet request = new HttpGet("http://www.apache.org/");
-      Future<HttpResponse> future = httpclient.execute(request, null);
-      HttpResponse response = future.get();
-      System.out.println("Response: " + response.getStatusLine());
-      System.out.println("Shutting down");
+      jkw.openHttpClient();
+      jkw.sendGetRequestTo("http://httpbin.org/get");
+      jkw.responseShouldHaveStatus(200);
+    } catch (Exception e) {
+      e.printStackTrace();
     } finally {
-      httpclient.close();
+      System.out.println("Shutting down");
+      jkw.closeHttpClient();
     }
     System.out.println("Done");
   }
-
-
 }
